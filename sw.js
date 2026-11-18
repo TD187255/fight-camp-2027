@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fight-camp-2027-v3';
+const CACHE_NAME = 'fight-camp-2027-v4';
 const CORE = ['./', './index.html', './manifest.webmanifest', './config.js'];
 self.addEventListener('install', event => { event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', event => { event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('fight-camp-2027-') && key !== CACHE_NAME).map(key => caches.delete(key)))).then(() => self.clients.claim())); });
