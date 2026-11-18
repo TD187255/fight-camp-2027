@@ -1,14 +1,3 @@
-FIGHT CAMP 2027 — first working version
-
-What's included:
-- Weekly training schedule with tick-off tasks
-- Weight log with date and latest-weight dashboard
-- Nutrition targets and simple meal ideas
-- Recovery/physio notes
-- Local browser storage (localStorage)
-
-Important:
-- Your data is saved in the browser on the device where you use the app. It does not automatically sync to another phone or browser.
-- To install as an iPhone Home Screen app, host these files on an HTTPS website (for example GitHub Pages), then open the URL in Safari > Share > Add to Home Screen.
-- The service worker enables offline caching after the first visit.
-- Training schedule is provisional. Given the reported numbness, tingling and leg weakness, get assessed by your GP/NHS 111 before running, sparring, boxing footwork or lower-body training.
+Fight Camp 2027 v2. Upload index.html, manifest.webmanifest and sw.js to the root of your GitHub repository, replacing the previous files, then commit changes. GitHub Pages republishes the site.
+Includes home dashboard, Monday/Wednesday/Friday amateur boxing, flexible Dan 1-to-1, S&C/cardio schedule, rehab organiser for clinician-approved exercises, food diary, meal catalogue, editable macros, weight log, and JSON backup/restore.
+Data is stored in local browser storage and does not sync across devices automatically. Meal macros are estimates. Rehab exercises are user-entered only after clinician approval due to reported neurological symptoms. Training schedule is a planner, not medical clearance.
