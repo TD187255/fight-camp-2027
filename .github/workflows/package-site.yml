@@ -1,0 +1,22 @@
+name: Package Fight Camp site
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: write
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create website ZIP
+        run: |
+          zip -r fight-camp-2027.zip index.html config.js manifest.webmanifest sw.js supabase-schema.sql README-SETUP.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fight-camp-2027-site
+          path: fight-camp-2027.zip
+          retention-days: 7
