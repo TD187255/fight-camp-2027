@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101114">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Fight Camp 2027">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Fight Camp 2027</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0c0f;--panel:#15171c;--panel2:#1c1f26;--line:#2b2f38;--muted:#9da3ae;--text:#f4f5f7;--red:#e34242;--gold:#e4b75b;--green:#70c69a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#202128 0,#0b0c0f 55%);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:calc(86px + env(safe-area-inset-bottom))}
+header{padding:calc(22px + env(safe-area-inset-top)) 18px 18px;max-width:760px;margin:auto}
+.kicker{color:var(--gold);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
+h1{font-size:30px;letter-spacing:-1px;margin:5px 0 3px} .sub{color:var(--muted);font-size:13px}
+main{max-width:760px;margin:auto;padding:0 14px}.screen{display:none}.screen.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{background:linear-gradient(145deg,var(--panel),#111318);border:1px solid var(--line);border-radius:17px;padding:15px;margin-bottom:11px;box-shadow:0 8px 24px #0003}
+.metric small,.label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.metric strong{display:block;font-size:28px;margin-top:5px;letter-spacing:-1px}.metric span{font-size:12px;color:var(--muted)}
+h2{font-size:18px;margin:4px 0 13px}h3{font-size:15px;margin:0 0 6px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.muted{color:var(--muted)}.small{font-size:12px}
+.pill{font-size:10px;font-weight:800;letter-spacing:.7px;padding:6px 9px;border-radius:99px;background:#392222;color:#ff9c9c}
+.progress{height:8px;border-radius:20px;background:#292d35;overflow:hidden;margin-top:10px}.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--gold));width:0}
+nav{position:fixed;bottom:0;left:0;right:0;background:#111318f2;backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex;justify-content:center;padding:9px 4px calc(9px + env(safe-area-inset-bottom));z-index:5}
+nav button{background:none;border:0;color:var(--muted);font-size:10px;flex:1;max-width:130px;padding:5px 1px}nav button b{display:block;font-size:19px;margin-bottom:3px}nav button.active{color:var(--gold)}
+button,.btn{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:11px 13px;border-radius:11px;font-weight:700}
+button.primary{background:var(--red);border-color:var(--red);color:white}.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+input,textarea,select{width:100%;background:#0e1014;border:1px solid var(--line);border-radius:10px;padding:12px;color:var(--text);font:inherit;margin:6px 0 12px}
+label{font-size:12px;color:var(--muted);font-weight:700}
+.task{display:flex;gap:11px;align-items:flex-start;padding:11px 0;border-bottom:1px solid #292d35}.task:last-child{border:0}
+.task input{width:19px;height:19px;margin:1px 0;accent-color:var(--red);flex-shrink:0}.task.done .tasktext{text-decoration:line-through;color:#777e89}
+.daybtn{min-width:42px;padding:9px 10px;font-size:12px}.daybtn.selected{border-color:var(--gold);color:var(--gold)}
+.notice{border-left:3px solid var(--gold);background:#292316;padding:12px;border-radius:8px;color:#f0dfb8;font-size:12px;line-height:1.5}
+.danger{border-left-color:var(--red);background:#2a1719;color:#ffd0d0}
+.log{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+footer{text-align:center;color:#666e7a;font-size:10px;padding:15px}
+</style>
+</head>
+<body>
+<header>
+ <div class="kicker">Your road to fight night</div>
+ <h1>FIGHT CAMP <span style="color:var(--red)">2027</span></h1>
+ <div class="sub">Personal training and progress dashboard · February 2027</div>
+</header>
+<main>
+<section id="home" class="screen active">
+ <div class="grid">
+  <div class="card metric"><small>Current weight</small><strong id="currentWeight">66.0 <span>kg</span></strong><span>Latest recorded</span></div>
+  <div class="card metric"><small>Target weight</small><strong>60.0 <span>kg</span></strong><span>Fight target</span></div>
+ </div>
+ <div class="card">
+  <div class="row"><h2>Weight journey</h2><span class="pill" id="remaining">6.0 KG TO GO</span></div>
+  <div class="progress"><i id="weightProgress"></i></div>
+  <p class="small muted" id="progressText">Log your weight to track your trend.</p>
+ </div>
+ <div class="card">
+  <div class="row"><h2>This week's training</h2><span class="small muted" id="weekCount">0 completed</span></div>
+  <div class="progress"><i id="weekProgress"></i></div>
+  <p class="small muted">Tick sessions off in the Training tab. Planned sessions are not permission to train through symptoms.</p>
+ </div>
+ <div class="notice danger"><b>Important health note</b><br>Your reported leg numbness, tingling and weakness need prompt assessment by your GP or NHS 111. Until a clinician clears you, do not do running, sparring, boxing footwork or lower-body strength work. The schedule below is a future plan, not a current clearance.</div>
+ <div class="card" style="margin-top:12px"><h2>Camp priorities</h2><div class="small muted">Build fitness without rushing recovery. Aim for consistent boxing, sensible strength work, steady running progression after clearance, and gradual weight loss rather than dehydration.</div></div>
+</section>
+<section id="training" class="screen">
+ <div class="row"><h2>Weekly schedule</h2><span class="small muted">Tap a day</span></div>
+ <div class="btnrow" id="dayButtons" style="margin-bottom:12px"></div>
+ <div class="card">
+  <div class="row"><div><div class="label" id="dayName">Monday</div><h2 id="dayTitle">Boxing day</h2></div><span class="pill" id="dayTime">5–6pm + 8–9:15pm</span></div>
+  <div id="taskList"></div>
+ </div>
+ <div class="notice">Training sessions shown here are your intended camp structure. Keep running, sparring and leg-loading sessions paused until you have been assessed and specifically cleared.</div>
+</section>
+<section id="weight" class="screen">
+ <h2>Weight tracker</h2>
+ <div class="card">
+  <div class="label">Add a weigh-in</div>
+  <label for="weightInput">Weight (kg)</label><input id="weightInput" type="number" min="30" max="250" step="0.1" placeholder="e.g. 65.8">
+  <label for="weightDate">Date</label><input id="weightDate" type="date">
+  <button class="primary" id="saveWeight">Save weigh-in</button>
+ </div>
+ <div class="card"><div class="row"><h2>Recent weigh-ins</h2><span class="small muted">Saved on this device</span></div><div id="weightLogs" class="small muted">No weigh-ins saved yet.</div></div>
+</section>
+<section id="nutrition" class="screen">
+ <h2>Nutrition targets</h2>
+ <div class="grid">
+  <div class="card metric"><small>Calories</small><strong>1,900–2,100</strong><span>Starting estimate / day</span></div>
+  <div class="card metric"><small>Protein</small><strong>130–140g</strong><span>Daily target</span></div>
+  <div class="card metric"><small>Fat</small><strong>55–65g</strong><span>Daily target</span></div>
+  <div class="card metric"><small>Carbs</small><strong>Remainder</strong><span>Fuel training and recovery</span></div>
+ </div>
+ <div class="card"><h2>Simple meal ideas</h2>
+  <div class="task"><span>🍳</span><div><b>Breakfast</b><div class="small muted">Eggs and toast, plus fruit</div></div></div>
+  <div class="task"><span>🍗</span><div><b>Lunch</b><div class="small muted">Chicken and rice</div></div></div>
+  <div class="task"><span>🥣</span><div><b>Snack</b><div class="small muted">0% Greek yoghurt or Skyr, banana and honey</div></div></div>
+  <div class="task"><span>🍠</span><div><b>Dinner</b><div class="small muted">Chicken or lean meat with rice or sweet potato</div></div></div>
+ </div>
+ <div class="notice">These calorie and macro figures are provisional starting estimates, not a medical prescription. Review your average weight trend, energy, recovery and boxing performance over 2–3 weeks. Do not use dehydration or crash dieting to make weight.</div>
+</section>
+<section id="rehab" class="screen">
+ <h2>Recovery & notes</h2>
+ <div class="notice danger">Your symptoms need clinical assessment before you restart training. Do not use this app as a rehabilitation prescription.</div>
+ <div class="card" style="margin-top:12px">
+  <h2>Questions / notes for physio</h2>
+  <textarea id="rehabNotes" rows="7" placeholder="Record symptoms, questions, appointment dates or exercises your physio has prescribed..."></textarea>
+  <button class="primary" id="saveNotes">Save notes</button>
+  <p class="small muted" id="notesStatus">Notes stay on this device.</p>
+ </div>
+ <div class="card"><h2>Urgent warning signs</h2><p class="small muted">Seek emergency care for new bladder or bowel control problems, numbness around the genitals or anus, or rapidly worsening leg weakness. Call 999 or attend A&E.</p></div>
+</section>
+<footer>FIGHT CAMP 2027 · Your progress is stored locally in this browser.</footer>
+</main>
+<nav>
+ <button class="active" data-screen="home"><b>⌂</b>Home</button>
+ <button data-screen="training"><b>🥊</b>Training</button>
+ <button data-screen="weight"><b>⚖</b>Weight</button>
+ <button data-screen="nutrition"><b>◉</b>Nutrition</button>
+ <button data-screen="rehab"><b>＋</b>Recovery</button>
+</nav>
+<script>
+const $=id=>document.getElementById(id);
+const read=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}};
+const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const days=[
+ {name:"Monday",title:"Boxing day",time:"5–6pm + 8–9:15pm",tasks:["1-to-1 coaching","Amateur boxing club","No extra gym session"]},
+ {name:"Tuesday",title:"Upper-body gym",time:"6:00am",tasks:["Chest press – 3 × 10","Seated cable row – 3 × 10","Lat pulldown – 3 × 10","Core stability"]},
+ {name:"Wednesday",title:"Boxing and sparring",time:"8–9:15pm",tasks:["Amateur boxing club","Sparring only when cleared","Technique and defence"]},
+ {name:"Thursday",title:"Easy run",time:"After medical clearance",tasks:["5km conversational run","Keep it comfortable","Cool down and recover"]},
+ {name:"Friday",title:"Strength and core",time:"6:00am",tasks:["Incline dumbbell press – 3 × 10","Cable row – 3 × 10","Pallof press – 3 × 10","Dead bugs – 3 × 10"]},
+ {name:"Saturday",title:"Running intervals",time:"After medical clearance",tasks:["10-minute warm-up","4 × 2-minute controlled efforts","2-minute easy jog recoveries","Cool down"]},
+ {name:"Sunday",title:"Recovery",time:"Rest day",tasks:["Rest and recover","Gentle walking only if comfortable","Prepare meals for the week"]}
+];
+let selectedDay=0;
+function renderDay(){
+ const d=days[selectedDay],done=read("fc_tasks",{});
+ $("dayName").textContent=d.name;$("dayTitle").textContent=d.title;$("dayTime").textContent=d.time;
+ $("taskList").innerHTML=d.tasks.map((t,i)=>{let key=selectedDay+"-"+i;return `<label class="task ${done[key]?"done":""}"><input type="checkbox" data-task="${key}" ${done[key]?"checked":""}><span class="tasktext">${t}</span></label>`}).join("");
+ document.querySelectorAll("[data-task]").forEach(el=>el.addEventListener("change",e=>{let v=read("fc_tasks",{});v[e.target.dataset.task]=e.target.checked;write("fc_tasks",v);renderDay();renderHome()}));
+ document.querySelectorAll(".daybtn").forEach((b,i)=>b.classList.toggle("selected",i===selectedDay));
+}
+function renderHome(){
+ let logs=read("fc_weights",[]),latest=logs[0]?.weight??66;
+ $("currentWeight").innerHTML=Number(latest).toFixed(1)+' <span>kg</span>';
+ let left=Math.max(0,latest-60);$("remaining").textContent=left.toFixed(1)+" KG TO GO";
+ $("weightProgress").style.width=Math.max(0,Math.min(100,(66-latest)/6*100))+"%";
+ $("progressText").textContent=logs.length?`Latest entry: ${logs[0].date}. Keep an eye on the weekly average.`:"Starting point: 66kg. Add a weigh-in in the Weight tab.";
+ let done=read("fc_tasks",{}),count=Object.values(done).filter(Boolean).length,total=days.reduce((n,d)=>n+d.tasks.length,0);
+ $("weekCount").textContent=count+" tasks completed";$("weekProgress").style.width=(count/total*100)+"%";
+}
+function renderWeights(){
+ let logs=read("fc_weights",[]);
+ $("weightLogs").innerHTML=logs.length?logs.slice(0,20).map(x=>`<div class="log"><span>${x.date}</span><b>${Number(x.weight).toFixed(1)} kg</b></div>`).join(""):"No weigh-ins saved yet.";
+}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("active",s.id===b.dataset.screen));}));
+days.forEach((d,i)=>{let b=document.createElement("button");b.className="daybtn";b.textContent=d.name.slice(0,3);b.onclick=()=>{selectedDay=i;renderDay()};$("dayButtons").appendChild(b)});
+$("saveWeight").onclick=()=>{let w=Number($("weightInput").value),date=$("weightDate").value;if(!w||w<30||w>250||!date){alert("Enter a valid weight and date.");return}let logs=read("fc_weights",[]);logs.unshift({weight:w,date});logs.sort((a,b)=>b.date.localeCompare(a.date));write("fc_weights",logs);$("weightInput").value="";renderWeights();renderHome()};
+$("weightDate").value=new Date().toISOString().slice(0,10);
+$("rehabNotes").value=localStorage.getItem("fc_notes")||"";
+$("saveNotes").onclick=()=>{localStorage.setItem("fc_notes",$("rehabNotes").value);$("notesStatus").textContent="Saved ✓";};
+renderDay();renderHome();renderWeights();
+if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js").catch(()=>{});
+</script>
+</body></html>
